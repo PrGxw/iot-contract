@@ -11,10 +11,17 @@ import (
 // Kind names the body carried by an Envelope.
 type Kind string
 
-// KindInventory is a full device inventory snapshot.
-const KindInventory Kind = "inventory"
+const (
+	// KindInventory is a full device inventory snapshot (upward).
+	KindInventory Kind = "inventory"
+	// KindConfig is a whole-kind configuration document (downward).
+	KindConfig Kind = "config"
+	// KindConfigReport is a full report of the configuration a gateway holds (upward).
+	KindConfigReport Kind = "config_report"
+)
 
-// Envelope wraps every upward message.
+// Envelope wraps every message, upward and downward. Downward, the backend leaves
+// BootID and Seq empty: ordering is decided from the upward (BootID, Seq) only.
 type Envelope struct {
 	GatewayID string          `json:"gateway_id"`
 	BootID    string          `json:"boot_id"`
